@@ -1,0 +1,47 @@
+# ============================================================
+# DrData — global.R  (v2 full)
+# ============================================================
+
+library(shiny)
+library(shinydashboard)
+library(plotly)
+library(DT)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(readxl)
+library(caret)
+library(randomForest)
+library(rpart)
+library(rpart.plot)
+library(e1071)
+library(class)
+library(nnet)
+library(colourpicker)
+library(glmnet)
+library(cluster)
+library(dbscan)
+library(GGally)
+library(gbm)
+library(pROC)
+library(reshape2)
+library(scales)
+
+`%||%` <- function(x, y) if (!is.null(x) && length(x) > 0) x else y
+
+# ── Source modules ────────────────────────────────────────────────────────────
+source("modules/utils_preprocess.R")
+source("modules/utils_eda.R")
+source("modules/interaction_helpers.R")
+source("modules/data_module.R")
+source("modules/preprocess_module.R")
+source("modules/eda_module.R")
+source("modules/classification_module.R")
+source("modules/regression_module.R")
+source("modules/clustering_module.R")
+# Advanced modules
+source("modules/automl_module.R")
+source("modules/model_comparison_module.R")
+source("modules/explainability_module.R")
+source("modules/deployment_module.R")

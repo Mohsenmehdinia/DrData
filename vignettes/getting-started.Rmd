@@ -1,0 +1,49 @@
+---
+title: "Getting Started with DrData"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with DrData}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Introduction
+
+**DrData** provides a point-and-click Shiny interface that covers the full
+data science pipeline without writing a single line of R code.
+
+## Launching the application
+
+```{r eval=FALSE}
+library(DrData)
+run_app()
+```
+
+The browser opens automatically. Use the sidebar to navigate between modules.
+
+## Workflow
+
+1. **Data Import** — upload a CSV/Excel file or load `iris`, `mtcars`, or
+   `Titanic` from the built-in examples.
+2. **Preprocessing** — handle missing values, remove duplicates, scale
+   numeric columns, and encode categorical variables.
+3. **EDA** — explore distributions, correlations, and run normality tests
+   with interactive Plotly charts.
+4. **Regression** — choose from 8 algorithms, tune hyperparameters, view
+   metrics (RMSE, MAE, R², Adj-R², MAPE, AIC, BIC), and inspect diagnostic
+   plots including interaction effect visualisations.
+5. **Classification** — train classifiers, evaluate with ROC curve and
+   confusion matrix, and inspect variable importance.
+6. **Clustering** — run K-Means, Hierarchical, or DBSCAN clustering, then
+   visualise results with elbow plots, silhouette analysis, and cluster
+   profiles.
+
+## Session info
+
+```{r}
+sessionInfo()
+```

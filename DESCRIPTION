@@ -1,0 +1,56 @@
+Package: DrData
+Title: Interactive Statistical Analysis and Machine Learning Platform
+Version: 0.2.0
+Authors@R: person(given = "Mohsen", family = "Mehdinia",
+    email = "mehdinia.55@gmail.com",
+    role = c("aut", "cre"))
+Description: A Shiny-based interactive platform for end-to-end data science
+    workflows. Provides modules for data import (CSV, Excel, RDS, TXT),
+    data preprocessing (missing value imputation, encoding, scaling, outlier
+    removal), exploratory data analysis with interactive plots and normality
+    tests, supervised learning (regression and classification each with eight
+    algorithms), and unsupervised learning (k-means, hierarchical clustering,
+    DBSCAN). Designed for students and practitioners in data science and
+    artificial intelligence.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en-US
+URL: https://github.com/mohsenmehdinia/DrData
+BugReports: https://github.com/mohsenmehdinia/DrData/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    shiny (>= 1.7.0),
+    stats,
+    utils
+Suggests:
+    shinydashboard,
+    plotly,
+    DT,
+    ggplot2,
+    dplyr,
+    tidyr,
+    readr,
+    readxl,
+    caret,
+    randomForest,
+    rpart,
+    rpart.plot,
+    e1071,
+    class,
+    nnet,
+    colourpicker,
+    glmnet,
+    cluster,
+    dbscan,
+    GGally,
+    gbm,
+    pROC,
+    reshape2,
+    scales,
+    nortest,
+    tseries,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
