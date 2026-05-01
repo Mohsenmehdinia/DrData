@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DrData — Interactive ML Platform for R</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0B1F3A;
+    --bg2: #0F2847;
+    --card: #122d50;
+    --green: #1D9E75;
+    --green-light: #1EEAAA;
+    --blue-muted: #7EC8E3;
+    --text: #E8F4F0;
+    --text-muted: #8BB4C8;
+    --border: rgba(30,234,170,0.15);
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: var(--sans);
+         font-weight: 300; line-height: 1.7; }
+
+  /* NAV */
+  nav { display: flex; align-items: center; justify-content: space-between;
+        padding: 1.2rem 4rem; border-bottom: 1px solid var(--border);
+        position: sticky; top: 0; background: var(--bg); z-index: 100; }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .nav-hex { width: 36px; height: 41px; }
+  .nav-title { font-family: var(--mono); font-size: 1.1rem;
+               font-weight: 600; color: var(--green-light); letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--text-muted); text-decoration: none;
+                 font-size: 0.875rem; font-weight: 400;
+                 transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green-light); }
+  .nav-btn { background: var(--green); color: white; padding: 0.45rem 1.2rem;
+             border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+             text-decoration: none; transition: background 0.2s; }
+  .nav-btn:hover { background: var(--green-light); color: var(--bg); }
+
+  /* HERO */
+  .hero { padding: 6rem 4rem 5rem; max-width: 1100px; margin: 0 auto; }
+  .hero-badge { display: inline-block; font-family: var(--mono);
+                font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+                color: var(--green-light); border: 1px solid var(--border);
+                padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 2rem; }
+  .hero h1 { font-size: 3.8rem; font-weight: 300; line-height: 1.15;
+             letter-spacing: -1px; margin-bottom: 1.5rem; }
+  .hero h1 strong { color: var(--green-light); font-weight: 600; }
+  .hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px;
+            margin-bottom: 2.5rem; line-height: 1.8; }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--green); color: white; padding: 0.8rem 2rem;
+                  border-radius: 8px; font-size: 0.95rem; font-weight: 500;
+                  text-decoration: none; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--green-light); color: var(--bg); transform: translateY(-1px); }
+  .btn-ghost { color: var(--text-muted); padding: 0.8rem 2rem; border-radius: 8px;
+               font-size: 0.95rem; font-weight: 400; text-decoration: none;
+               border: 1px solid var(--border); transition: all 0.2s; }
+  .btn-ghost:hover { color: var(--text); border-color: var(--green-light); }
+  .code-install { font-family: var(--mono); font-size: 0.85rem;
+                  color: var(--green-light); background: var(--card);
+                  padding: 0.45rem 1rem; border-radius: 6px;
+                  border: 1px solid var(--border); }
+
+  /* MODULES GRID */
+  .section { padding: 4rem 4rem; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+                   letter-spacing: 2px; color: var(--green); text-transform: uppercase;
+                   margin-bottom: 0.8rem; }
+  .section h2 { font-size: 2.2rem; font-weight: 300; margin-bottom: 0.6rem; }
+  .section h2 strong { color: var(--green-light); font-weight: 600; }
+  .section > p { color: var(--text-muted); font-size: 1rem;
+                 margin-bottom: 3rem; max-width: 580px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1px; background: var(--border); border: 1px solid var(--border);
+          border-radius: 12px; overflow: hidden; }
+  .card { background: var(--card); padding: 1.8rem 2rem; }
+  .card-icon { width: 40px; height: 40px; border-radius: 10px;
+               background: rgba(29,158,117,0.15); display: flex;
+               align-items: center; justify-content: center;
+               margin-bottom: 1.2rem; }
+  .card-icon svg { width: 20px; height: 20px; stroke: var(--green-light); fill: none;
+                   stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .card h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem;
+             color: var(--text); }
+  .card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+  /* WORKFLOW */
+  .workflow { display: flex; align-items: center; gap: 0;
+              flex-wrap: wrap; margin: 2rem 0; }
+  .wf-step { font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
+             color: var(--green-light); background: rgba(29,158,117,0.12);
+             border: 1px solid var(--border); padding: 0.5rem 1.2rem;
+             border-radius: 20px; white-space: nowrap; }
+  .wf-arrow { color: var(--text-muted); margin: 0 0.4rem; font-size: 0.9rem; }
+
+  /* INSTALL SECTION */
+  .install-block { background: var(--card); border: 1px solid var(--border);
+                   border-radius: 12px; padding: 2.5rem 3rem; margin-top: 2rem; }
+  .install-block pre { font-family: var(--mono); font-size: 0.9rem;
+                       color: var(--green-light); line-height: 1.8; }
+  .install-block .comment { color: var(--text-muted); }
+  .install-block .fn { color: #7EC8E3; }
+  .install-block .str { color: #FAC775; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2.5rem 4rem;
+           display: flex; justify-content: space-between; align-items: center;
+           flex-wrap: wrap; gap: 1rem; margin-top: 4rem; }
+  footer p { font-size: 0.85rem; color: var(--text-muted); }
+  footer a { color: var(--green); text-decoration: none; }
+  .badges { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .badge { font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
+           padding: 0.25rem 0.7rem; border-radius: 4px;
+           border: 1px solid var(--border); color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <svg class="nav-hex" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="20,2 38,12 38,34 20,44 2,34 2,12" fill="#0B1F3A" stroke="#1D9E75" stroke-width="1.5"/>
+      <text x="7" y="22" font-family="Georgia,serif" font-size="11" font-weight="700" fill="white">Dr</text>
+      <text x="6" y="34" font-family="Georgia,serif" font-size="9" font-weight="700" fill="#1EEAAA">Data</text>
+    </svg>
+    <span class="nav-title">DrData</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="articles/getting-started.html">Articles</a></li>
+    <li><a href="reference/index.html">Reference</a></li>
+    <li><a href="https://github.com/Mohsenmehdinia/DrData">GitHub</a></li>
+  </ul>
+  <a href="#install" class="nav-btn">Get Started</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">R PACKAGE · v0.2.0</div>
+  <h1>Data science,<br><strong>without the code.</strong></h1>
+  <p>DrData is a Shiny-based interactive platform for end-to-end machine learning workflows — designed for students and practitioners in data science and AI.</p>
+  <div class="hero-actions">
+    <a href="#install" class="btn-primary">Install DrData</a>
+    <a href="https://github.com/mohsenmehdinia/DrData" class="btn-ghost">View on GitHub</a>
+    <code class="code-install">install.packages("DrData")</code>
+  </div>
+</section>
+
+<section class="section" id="modules">
+  <div class="section-label">Platform</div>
+  <h2>Everything in one <strong>workflow</strong></h2>
+  <p>Ten integrated modules that take you from raw data to a deployed model — point, click, explore.</p>
+
+  <div class="workflow">
+    <span class="wf-step">Import</span><span class="wf-arrow">→</span>
+    <span class="wf-step">Preprocess</span><span class="wf-arrow">→</span>
+    <span class="wf-step">EDA</span><span class="wf-arrow">→</span>
+    <span class="wf-step">Model</span><span class="wf-arrow">→</span>
+    <span class="wf-step">AutoML</span><span class="wf-arrow">→</span>
+    <span class="wf-step">Compare</span><span class="wf-arrow">→</span>
+    <span class="wf-step">Explain</span><span class="wf-arrow">→</span>
+    <span class="wf-step">Deploy</span>
+  </div>
+  <br>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+      <h3>Data Import</h3>
+      <p>Load CSV, Excel, RDS, or TXT files. Built-in example datasets: iris, mtcars, Titanic.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <h3>Preprocessing</h3>
+      <p>Imputation, scaling (z-score, min-max, log), one-hot encoding, outlier removal, near-zero variance.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <h3>Exploratory Data Analysis</h3>
+      <p>8 interactive plot types, normality tests (Shapiro-Wilk, KS, AD, JB), and an auto-EDA report.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <h3>Regression</h3>
+      <p>8 algorithms including Ridge, Lasso, Random Forest, GBM, SVM, Neural Net. Interaction terms supported.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+      <h3>Classification</h3>
+      <p>8 classifiers with ROC curve, confusion matrix, precision, recall, F1. Binary and multiclass.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v3m-4.33 4l2.33-4m4.33 4l-2.33-4"/></svg></div>
+      <h3>Clustering</h3>
+      <p>K-Means, Hierarchical (ward.D2), DBSCAN. Silhouette score, elbow plot, Gower distance for mixed data.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+      <h3>AutoML</h3>
+      <p>Automatic algorithm selection and comparison. Regression and classification. Prevents data leakage.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <h3>Model Comparison</h3>
+      <p>Side-by-side metrics dashboard and performance heatmap across all AutoML runs.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg></div>
+      <h3>Explainability</h3>
+      <p>Native feature importance for RF, GBM, Tree, LM. Permutation importance for any model type.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg></div>
+      <h3>Deployment</h3>
+      <p>Save trained models as .rds, reload them, and predict on new CSV data. Secure file handling.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="install">
+  <div class="section-label">Installation</div>
+  <h2>Ready in <strong>two lines</strong></h2>
+  <p>All required packages are checked automatically on first launch.</p>
+
+  <div class="install-block">
+    <pre><span class="comment"># From CRAN</span>
+<span class="fn">install.packages</span>(<span class="str">"DrData"</span>)
+
+<span class="comment"># Development version from GitHub</span>
+<span class="fn">remotes::install_github</span>(<span class="str">"mohsenmehdinia/DrData"</span>)
+
+<span class="comment"># Launch</span>
+<span class="fn">library</span>(DrData)
+<span class="fn">run_app</span>()</pre>
+  </div>
+</section>
+
+<section class="section" id="reference">
+  <div class="section-label">Reference</div>
+  <h2>Exported <strong>functions</strong></h2>
+  <p>DrData also exposes programmatic helpers for use in your own scripts.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3 style="font-family:'IBM Plex Mono',monospace;font-size:0.9rem;color:#1EEAAA;">run_app()</h3>
+      <p>Launch the full DrData Shiny application in your browser or RStudio viewer.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-family:'IBM Plex Mono',monospace;font-size:0.9rem;color:#1EEAAA;">ml_split(data, train_ratio, seed)</h3>
+      <p>Reproducible train/test split. Returns a named list with train and test data frames.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-family:'IBM Plex Mono',monospace;font-size:0.9rem;color:#1EEAAA;">ml_prepare_data(data, target, features)</h3>
+      <p>Validate and clean a data frame for modelling. Drops incomplete rows automatically.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-family:'IBM Plex Mono',monospace;font-size:0.9rem;color:#1EEAAA;">build_model_formula(target, features, ...)</h3>
+      <p>Build a formula object with optional two-way interaction terms.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-family:'IBM Plex Mono',monospace;font-size:0.9rem;color:#1EEAAA;">ml_metrics_regression(y_true, y_pred)</h3>
+      <p>Compute RMSE, MAE, and R² for regression predictions.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <p>DrData &copy; 2025 <a href="mailto:mehdinia.55@gmail.com">Mohsen Mehdinia</a> · MIT License</p>
+    <p style="margin-top:0.3rem;">Built with R, Shiny, and ggplot2</p>
+  </div>
+  <div class="badges">
+    <span class="badge">CRAN v0.2.0</span>
+    <span class="badge">R &ge; 4.1.0</span>
+    <span class="badge">MIT License</span>
+  </div>
+</footer>
+
+</body>
+</html>
