@@ -53,4 +53,4 @@ Data Import → Preprocessing → EDA → Regression / Classification / Clusteri
 
 ## License
 
-MIT © 2025 Mohsen Mehdinia
+MIT © 2026 Mohsen Mehdinia
